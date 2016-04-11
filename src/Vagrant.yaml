@@ -1,0 +1,80 @@
+---
+ip: "192.168.20.10"
+memory: 512
+cpus: 1
+
+provider: parallels
+
+box: joey/ubuntu-14.04
+# box: ubuntu14.04
+#box: parallels/ubuntu-14.04
+#name: VagrantX
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+# networks:
+#     - type: "public_network"
+#       ip: "192.168.0.100"
+#       bridge: "en0"
+
+folders:
+    - map: /Volumes/Net/Sites
+      to: /Code/Sites
+      type: "nfs"
+
+    - map: /Volumes/Net/Nicokids
+      to: /Code/Nicokids
+      type: "nfs"
+
+    - map: /Volumes/Net/MySQL
+      to: /Code/MySQL
+      type: "nfs"
+
+sites:
+   - map: symfony
+     to: /Code/Sites/Symfony3/web
+
+   - map: laravel
+     to: /Code/Sites/laravel5/public
+     type: "laravel"
+
+   - map: vagrant
+     to: /Code/Sites
+     type: "general"
+
+   - map: nicokids
+     to: /Code/Nicokids
+     type: "laravel"
+
+
+# databases:
+#     - symfony3
+#     - laravel5
+
+  #配置虚拟机主机名
+  #config.vm.hostname = "for_work"  
+  ##虚拟机网络设置
+  #config.vm.network "private_network", ip: "192.168.33.10"
+  #config.vm.network "public_network"
+  # 同步目录
+  #config.vm.synced_folder "/Volumes/Net/", "/vagrant"
+  # 配置SSH用户
+   #config.ssh.username
+  # 端口转发
+   #config.vm.network "forwarded_port", guest: 80, host: 8080
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp

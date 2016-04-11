@@ -1,5 +1,5 @@
-class Homestead
-  def Homestead.configure(config, settings)
+class VagrantX
+  def VagrantX.configure(config, settings)
     # Set The VM Provider
     ENV['VAGRANT_DEFAULT_PROVIDER'] = settings["provider"] ||= "virtualbox"
 
@@ -13,9 +13,9 @@ class Homestead
     config.ssh.forward_agent = true
 
     # Configure The Box
-    config.vm.box = settings["box"] ||= "laravel/homestead"
-    config.vm.box_version = settings["version"] ||= ">= 0.4.0"
-    config.vm.hostname = settings["hostname"] ||= "homestead"
+    config.vm.box = settings["box"] ||= "base"
+    #config.vm.box_version = settings["version"] ||= ">= 0.4.0"
+    config.vm.hostname = settings["hostname"] ||= "Vagrant"
 
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
@@ -25,11 +25,13 @@ class Homestead
       settings["networks"].each do |network|
         config.vm.network network["type"], ip: network["ip"], bridge: network["bridge"] ||= nil
       end
+    else
+      #config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
     end
 
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
-      vb.name = settings["name"] ||= "homestead-7"
+      vb.name = settings["name"] ||= "VagrantX"
       vb.customize ["modifyvm", :id, "--memory", settings["memory"] ||= "2048"]
       vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] ||= "1"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
@@ -40,7 +42,7 @@ class Homestead
     # Configure A Few VMware Settings
     ["vmware_fusion", "vmware_workstation"].each do |vmware|
       config.vm.provider vmware do |v|
-        v.vmx["displayName"] = "homestead"
+        v.vmx["displayName"] = "Vagrant"
         v.vmx["memsize"] = settings["memory"] ||= 2048
         v.vmx["numvcpus"] = settings["cpus"] ||= 1
         v.vmx["guestOS"] = "ubuntu-64"
@@ -49,7 +51,9 @@ class Homestead
 
     # Configure A Few Parallels Settings
     config.vm.provider "parallels" do |v|
-      v.update_guest_tools = true
+      v.name = settings["name"] ||= "Vagrant"
+      v.check_guest_tools = false
+      v.update_guest_tools = false
       v.memory = settings["memory"] ||= 2048
       v.cpus = settings["cpus"] ||= 1
     end
@@ -144,10 +148,16 @@ class Homestead
         s.path = scriptDir + "/clear-nginx.sh"
     end
 
+    # 设置语言和安装GIT
+    # 
+    config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/install-app.sh"
+    end
+
 
     if settings.include? 'sites'
       settings["sites"].each do |site|
-        type = site["type"] ||= "laravel"
+        type = site["type"] ||= "symfony"
   
         if (site.has_key?("hhvm") && site["hhvm"])
           type = "hhvm"
@@ -214,13 +224,13 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
-            s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
+            s.inline = "echo \"\n# Set Vagrant Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
             s.args = [var["key"], var["value"]]
         end
       end
 
       config.vm.provision "shell" do |s|
-        s.inline = "service php7.0-fpm restart"
+        s.inline = "service php-fpm restart"
       end
     end
 
