@@ -148,13 +148,6 @@ class VagrantX
         s.path = scriptDir + "/clear-nginx.sh"
     end
 
-    # 设置语言和安装GIT
-    # 
-    config.vm.provision "shell" do |s|
-        s.path = scriptDir + "/install-app.sh"
-    end
-
-
     if settings.include? 'sites'
       settings["sites"].each do |site|
         type = site["type"] ||= "symfony"
