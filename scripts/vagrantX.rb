@@ -159,6 +159,10 @@ class VagrantX
         if (type == "symfony")
           type = "symfony2"
         end
+
+        if (type == "general")
+          type = "general"
+        end
   
         config.vm.provision "shell" do |s|
           s.path = scriptDir + "/serve-#{type}.sh"
