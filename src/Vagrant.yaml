@@ -1,21 +1,23 @@
 ---
-ip: "192.168.20.10"
-#name: VagrantX
-memory: 512
+name: "VagrantX"
+ip: "192.168.10.10"
+memory: 2048
 cpus: 1
 
 provider: parallels
-box: joey/ubuntu-14.04
+
 # box: parallels/ubuntu-14.04
+box: joey/ubuntu-14.04-0.5.9
 
 authorize: ~/.ssh/id_rsa.pub
 keys:
     - ~/.ssh/id_rsa
 
-# networks:
-#     - type: "public_network"
-#       ip: "192.168.0.100"
-#       bridge: "en0"
+networks:
+    - type: "public_network"
+      ip: "192.168.0.100"
+      bridge: "en1"
+
 datadir: /Volumes/Net/MySQL
 
 
@@ -28,8 +30,8 @@ folders:
       to: /Code/Nicokids
       type: "nfs"
 
-    - map: /Volumes/Net/MySQL
-      to: /Code/MySQL
+    - map: /Volumes/Net/Workspace
+      to: /Code/Workspace
       type: "nfs"
 
 sites:
