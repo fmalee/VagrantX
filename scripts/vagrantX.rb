@@ -231,6 +231,13 @@ class VagrantX
       end
     end
 
+    if settings.include? 'datadir'
+      config.vm.synced_folder settings["datadir"], "/var/lib/mysql",
+        :nfs => true,
+        :mount_options => ['actimeo=1']
+
+      config.vm.provision "shell", inline: "service mysql restart", run: "always"
+    end
     # Update Composer On Every Provision
     config.vm.provision "shell" do |s|
       s.inline = "/usr/local/bin/composer self-update"
