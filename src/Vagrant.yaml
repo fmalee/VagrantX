@@ -5,9 +5,8 @@ memory: 2048
 cpus: 1
 
 provider: parallels
-
+box: joey/ubuntu-14.04-0.6.9
 # box: parallels/ubuntu-14.04
-box: joey/ubuntu-14.04-0.5.9
 
 authorize: ~/.ssh/id_rsa.pub
 keys:
@@ -23,31 +22,35 @@ datadir: /Volumes/Net/MySQL
 
 folders:
     - map: /Volumes/Net/Sites
-      to: /Code/Sites
+      to: /code/sites
       type: "nfs"
 
     - map: /Volumes/Net/Nicokids
-      to: /Code/Nicokids
+      to: /code/nicokids
       type: "nfs"
 
     - map: /Volumes/Net/Workspace
-      to: /Code/Workspace
+      to: /code/workspace
       type: "nfs"
+
+    # - map: /Volumes/Net/MySQL
+    #   to: /Code/MySQL
+    #   type: "nfs"
 
 sites:
    - map: symfony
-     to: /Code/Sites/Symfony3/web
+     to: /code/sites/Symfony3/web
 
    - map: laravel
-     to: /Code/Sites/laravel5/public
+     to: /code/sites/laravel5/public
      type: "laravel"
 
    - map: vagrant
-     to: /Code/Sites
+     to: /code/sites
      type: "general"
 
    - map: nicokids
-     to: /Code/Nicokids
+     to: /code/nicokids
      type: "laravel"
 
 
