@@ -2,9 +2,12 @@ class VagrantX
   def VagrantX.configure(config, settings)
     # Set The VM Provider
     ENV['VAGRANT_DEFAULT_PROVIDER'] = settings["provider"] ||= "virtualbox"
+    ENV['VAGRANT_DOTFILE_PATH'] = ENV['VAGRANT_DOTFILE_PATH'] ||= ".vagrant"
 
     # Configure Local Variable To Access Scripts From Remote Location
     scriptDir = File.dirname(__FILE__)
+    vagrantDir = scriptDir + "/../" + ENV['VAGRANT_DOTFILE_PATH'] + "/machines/default/" + ENV['VAGRANT_DEFAULT_PROVIDER']
+    idLock = vagrantDir + "/id"
 
     # Prevent TTY Errors
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
@@ -253,6 +256,18 @@ class VagrantX
           settings["blackfire"][0]["client-id"],
           settings["blackfire"][0]["client-token"]
         ]
+      end
+    end
+
+    # Get APT in first time
+    if ! File.exists? idLock then
+      if settings.include? 'apt_proxy' then
+        config.vm.provision "shell" do |s|
+          s.inline = "apt-get -y -o Acquire::http::proxy='$1' update"
+          s.args   = settings["apt_proxy"]
+        end
+      elsif
+        config.vm.provision "shell", inline: "apt-get -y update"
       end
     end
   end
