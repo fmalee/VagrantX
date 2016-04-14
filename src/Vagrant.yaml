@@ -17,8 +17,7 @@ networks:
       ip: "192.168.0.100"
       bridge: "en1"
 
-datadir: /Volumes/Net/MySQL
-
+#datadir: /Volumes/Net/MySQL
 
 folders:
     - map: /Volumes/Net/Sites

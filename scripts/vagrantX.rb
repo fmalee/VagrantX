@@ -94,6 +94,23 @@ class VagrantX
       end
     end
 
+    # Change Mysql DataDir
+    if settings.include? 'datadir'
+      if File.exists? idLock then
+        config.vm.synced_folder settings["datadir"], "/var/lib/mysql",
+          :nfs => true,
+          :mount_options => ['actimeo=1']
+
+        config.vm.provision "shell", run: "always" do |s|
+          s.path = scriptDir + "/change-mysql.sh"
+          # s.args = settings["datadir"]
+          s.args = "/var/lib/mysql"
+        end
+      elsif
+        config.vm.provision "shell", inline: "echo ‘第一次启动，需要重启后新数据库才能生效’", run: "always"
+      end
+    end
+
     # Configure The Public Key For SSH Access
     if settings.include? 'authorize'
       if File.exists? File.expand_path(settings["authorize"])
@@ -195,7 +212,6 @@ class VagrantX
       end
     end
 
-
     # Configure All Of The Configured Databases
     if settings.has_key?("databases")
         settings["databases"].each do |db|
@@ -234,13 +250,6 @@ class VagrantX
       end
     end
 
-    if settings.include? 'datadir'
-      config.vm.synced_folder settings["datadir"], "/var/lib/mysql",
-        :nfs => true,
-        :mount_options => ['actimeo=1']
-
-      config.vm.provision "shell", inline: "service mysql restart", run: "always"
-    end
     # Update Composer On Every Provision
     config.vm.provision "shell" do |s|
       s.inline = "/usr/local/bin/composer self-update"
