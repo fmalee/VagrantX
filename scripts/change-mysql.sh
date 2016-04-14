@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
-# sed -i "s?^datadir.*?datadir = $1?" /etc/mysql/my.cnf
-# sed -i ":begin; /#vagrant_b/,/vagrant_e/ { /vagrant_e/! { $! { N; b begin }; }; s/#vagrant_b.*vagrant_e//; };"  /etc/apparmor.d/usr.sbin.mysqld
-# sed -i "\/var\/lib\/mysql\/\*\* rwk,/a\  #vagrant_b\n  $1 r,\n  $1\/** rwk,\n  #vagrant_e" /etc/apparmor.d/usr.sbin.mysqld
+if [ -d $1 ]; then
+	sed -i "s?^datadir.*?datadir = $1?" /etc/mysql/my.cnf
 
-/etc/init.d/rpcbind restart
-/etc/init.d/apparmor restart
-/etc/init.d/mysql stop
-/etc/init.d/mysql start
+	sed -i ":begin; /#vagrant_b/,/vagrant_e/ { /vagrant_e/! { $! { N; b begin }; }; s/#vagrant_b.*vagrant_e//; };"  /etc/apparmor.d/usr.sbin.mysqld
+	sed -i "\/var\/lib\/mysql\/\*\* rwk,/a\  #vagrant_b\n  $1 r,\n  $1\/** rwk,\n  #vagrant_e" /etc/apparmor.d/usr.sbin.mysqld
+
+	/etc/init.d/rpcbind restart
+	/etc/init.d/apparmor restart
+	/etc/init.d/mysql stop
+	/etc/init.d/mysql star
+else
+	echo '==> No such directory, Please use the path in the Guest OS'
+fi
