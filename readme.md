@@ -25,13 +25,15 @@ Vagrant可以快速部署虚拟化开发环境。而Laravel框架的Homestead事
 现在的情况是MySQL经常无法启动，无论是直接映射覆盖`/var/lib/mysql`，还是修改数据库目录和增加`apparmor`权限。
 一般都是`InnoDB: Unable to lock ./ib_logfile1, error: 11`错误。
 这个和权限有关的错误可能是和NFS本身有关。MySQL认为有另一个进程在使用InnoDB文件。
-删除`ibdata1`,`ib_logfile0`,`ib_logfile1`三个文件让MySQL重建就能启动。
+删除`ibdata1`,`ib_logfile0`,`ib_logfile1`三个文件让MySQL重建就能启动，可是这和备份数据的初衷不符合。
 
-- 可是这和备份数据的初衷不符合。
 试了不少方法都没有成功，先搁置：
 - 修改主机目录权限为最大
+
 - 修改UID和GID为虚拟机上Mysql一致，权限一致。
+
 - mv三个文件在cp回来。
+
 - 使用虚拟机自带的共享功能映射。
 
 ### 备忘
