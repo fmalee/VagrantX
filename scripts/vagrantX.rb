@@ -106,7 +106,6 @@ class VagrantX
             :mount_options => ['actimeo=1']
 
           config.vm.provision "shell", run: "always" do |s|
-            s.path = scriptDir + "/change-#{type}.sh"
             s.path = scriptDir + "/datadir-#{type}.sh"
             s.args = data["to"]
           end
