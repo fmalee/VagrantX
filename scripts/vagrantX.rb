@@ -252,11 +252,6 @@ class VagrantX
       end
     end
 
-    # Update Composer On Every Provision
-    config.vm.provision "shell" do |s|
-      s.inline = "/usr/local/bin/composer self-update"
-    end
-
     # Configure Blackfire.io
     if settings.has_key?("blackfire")
       config.vm.provision "shell" do |s|
@@ -272,13 +267,9 @@ class VagrantX
 
     # Get APT in first time
     if ! File.exists? idLock then
-      if settings.include? 'apt_proxy' then
-        config.vm.provision "shell" do |s|
-          s.inline = "apt-get -y -o Acquire::http::proxy='$1' update"
-          s.args   = settings["apt_proxy"]
-        end
-      elsif
-        config.vm.provision "shell", inline: "apt-get -y update"
+      config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/init.sh"
+        s.args   = settings["apt_proxy"]
       end
     end
   end
