@@ -11,7 +11,7 @@ Vagrant可以快速部署虚拟化开发环境。而Laravel框架的Homestead事
 - 将`Homestead `修改为VagrantX
 - 建立说明文档
 - 清理无用文件，简化项目
-- 将配置文件移到上级目录`src`
+- 将配置文件移到上级目录`src`，然后将`src`改名为`vagrant.d`，因为`src`在很多项目中很常见，容易冲突
 - 将配置文件和`scripts`脚本目录都初始化到`~/.vagrantX`目录，方便统一管理。
 - 同时允许个性化项目，只要将配置文件放置在项目目录下，脚本优先读取，方便部署多个案例。
 - 增加Nginx站点的常规配置脚本
@@ -19,6 +19,12 @@ Vagrant可以快速部署虚拟化开发环境。而Laravel框架的Homestead事
 - 增加`apt_proxy`配置选项。默认Vagrant首次启动会更新APT，可以用`apt_proxy`配置代理。
 - 似乎只要只要取消`parallels`的`v.update_guest_tools`就能顺利进入系统，文件共享成功，而不需要开启NFS。
 - 其他小调整
+
+# 待完善
+
+ - 修改默认端口逻辑：如果用户配置自己的端口映射，那么默认端口映射都取消
+ - 调整`Variable`的变量处理机制
+ - `init.sh`脚本的`awk`变量处理
 
 # 疑难问题
 
