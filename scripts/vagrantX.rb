@@ -6,7 +6,7 @@ class VagrantX
 
     # Configure Local Variable To Access Scripts From Remote Location
     scriptDir = File.dirname(__FILE__)
-    vagrantDir = scriptDir + "/../" + ENV['VAGRANT_DOTFILE_PATH'] + "/machines/default/" + ENV['VAGRANT_DEFAULT_PROVIDER']
+    vagrantDir = Dir::getwd + "/" + ENV['VAGRANT_DOTFILE_PATH'] + "/machines/default/" + ENV['VAGRANT_DEFAULT_PROVIDER']
     idLock = vagrantDir + "/id"
 
     # Prevent TTY Errors
@@ -264,7 +264,7 @@ class VagrantX
     end
 
     # Get APT in first time
-    if ! File.exists? idLock then
+    if ! (File.exists? idLock) then
       config.vm.provision "shell" do |s|
         s.path = scriptDir + "/init.sh"
         s.args   = settings["apt_proxy"]

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-vgrantXRoot=~/.vagrantX
+VAGRANTX_ROOT=~/.vagrantX
 
-mkdir -p "$vgrantXRoot"
+mkdir -p "$VAGRANTX_ROOT"
 
-cp -i src/Vagrant.yaml "$vgrantXRoot/Vagrant.yaml"
-cp -i src/after.sh "$vgrantXRoot/after.sh"
-cp -i src/aliases "$vgrantXRoot/aliases"
+awk 'BEGIN { cmd="cp -ri vagrant.d/Vagrant.yaml ~/.vagrantX/Vagrant.yaml"; print "n" |cmd; }'
+awk 'BEGIN { cmd="cp -ri vagrant.d/after.sh ~/.vagrantX/after.sh"; print "n" |cmd; }'
+awk 'BEGIN { cmd="cp -ri vagrant.d/aliases ~/.vagrantX/aliases"; print "n" |cmd; }'
 
-rm -r "$vgrantXRoot/scripts"
-cp -r scripts $vgrantXRoot
+rm -r "$VAGRANTX_ROOT/scripts"
+cp -r scripts $VAGRANTX_ROOT
 
 echo "VagrantX initialized!"

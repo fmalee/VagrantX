@@ -3,7 +3,7 @@ require 'yaml'
 
 VAGRANTFILE_API_VERSION = "2"
 homeDir = File.expand_path("~/.vagrantX")
-confDir = File.dirname(__FILE__) + '/src'
+confDir = File.dirname(__FILE__) + '/vagrant.d'
 
 vagrantYamlPath = confDir + "/Vagrant.yaml"
 vagrantJsonPath = confDir + "/Vagrant.json"
