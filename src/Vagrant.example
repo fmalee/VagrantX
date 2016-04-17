@@ -1,0 +1,70 @@
+---
+name: "VagrantX"
+hostname: "Vagrant"
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+
+provider: virtualbox
+box: base
+
+ports:
+    - send: 8000
+      to: 80
+    - send: 44300
+      to: 443
+    - send: 33060
+      to: 3306
+    - send: 54320
+      to: 5432
+#     - send: 7777
+#       to: 777
+#       protocol: udp
+
+# authorize: ~/.ssh/id_rsa.pub
+# keys:
+#     - ~/.ssh/id_rsa
+
+# networks:
+#     - type: "public_network"
+#       ip: "192.168.0.100"
+#       bridge: "en1"
+
+# datadir: 
+#     - map: /Volumes/Net/MySQL
+#       to: /var/mysql
+#       type: mysql
+
+# folders:
+#     - map: /Volumes/Net/Symfony
+#       to: /code/symfony
+#       type: "nfs"
+
+# sites:
+#    - map: symfony
+#      to: /code/symfony3/web
+#      type: "symfony"
+#      hhvm: true
+#      schedule: true
+
+# copy:
+#     - from: /Volumes/Net/Symfony/image.jpg
+#       to: /code/images
+
+# variables:
+#     - key: newkey
+#       value: newvalue
+
+# apt_proxy: http://192.168.0.2:8087/
+
+# databases:
+#     - symfony3
+#     - laravel5
+
+# mariadb: true
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
