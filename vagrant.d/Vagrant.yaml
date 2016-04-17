@@ -1,0 +1,35 @@
+---
+name: "VagrantX"
+hostname: "Vagrant"
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+
+provider: virtualbox
+box: base
+
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+
+networks:
+    - type: "public_network"
+      ip: "192.168.0.100"
+      bridge: "en1"
+
+datadir: 
+    - map: /Volumes/Net/MySQL
+      to: /var/mysql
+      type: mysql
+
+folders:
+    - map: /Volumes/Net/Symfony
+      to: /code/symfony
+      type: "nfs"
+
+sites:
+   - map: symfony
+     to: /code/symfony3/web
+     type: "symfony"
+     hhvm: true
+     schedule: true
