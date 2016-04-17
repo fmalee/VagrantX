@@ -107,6 +107,7 @@ class VagrantX
 
           config.vm.provision "shell", run: "always" do |s|
             s.path = scriptDir + "/change-#{type}.sh"
+            s.path = scriptDir + "/datadir-#{type}.sh"
             s.args = data["to"]
           end
         end
