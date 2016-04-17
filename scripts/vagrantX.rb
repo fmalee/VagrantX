@@ -28,8 +28,6 @@ class VagrantX
       settings["networks"].each do |network|
         config.vm.network network["type"], ip: network["ip"], bridge: network["bridge"] ||= nil
       end
-    else
-      #config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
     end
 
     # Configure A Few VirtualBox Settings
@@ -45,7 +43,7 @@ class VagrantX
     # Configure A Few VMware Settings
     ["vmware_fusion", "vmware_workstation"].each do |vmware|
       config.vm.provider vmware do |v|
-        v.vmx["displayName"] = "Vagrant"
+        v.vmx["displayName"] = settings["name"] ||= "Vagrant"
         v.vmx["memsize"] = settings["memory"] ||= 2048
         v.vmx["numvcpus"] = settings["cpus"] ||= 1
         v.vmx["guestOS"] = "ubuntu-64"
@@ -54,9 +52,9 @@ class VagrantX
 
     # Configure A Few Parallels Settings
     config.vm.provider "parallels" do |v|
-      v.name = settings["name"] ||= "Vagrant"
-      v.check_guest_tools = false
-      v.update_guest_tools = false
+      v.name = settings["name"] ||= "VagrantX"
+      # v.check_guest_tools = false
+      # v.update_guest_tools = false
       v.memory = settings["memory"] ||= 2048
       v.cpus = settings["cpus"] ||= 1
     end
