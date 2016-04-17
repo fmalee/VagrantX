@@ -26,6 +26,36 @@ Vagrant可以快速部署虚拟化开发环境。而Laravel框架的Homestead事
  - 调整`Variable`的变量处理机制
  - `init.sh`脚本的`awk`变量处理
 
+# 使用方法
+
+## Clone代码到本地
+
+```
+git clone git@github.com:fmalee/VagrantX.git vagrantX
+```
+
+## 执行初始化
+```
+bash init.sh
+```
+将会将配置文件和脚本代码拷贝到`~/.vagrantX`目录
+
+## 配置vagrant.yaml文件
+```
+vi ~/.vagrantX/Vagrant.yaml
+```
+
+## 创建工作目录
+拷贝`Vagrantfile`文件到任意目录，然后启动Vagrant
+```
+vagrant up
+```
+
+## 想使用独立配置文件
+1. 拷贝`Vagrantfile`文件和`vagrant`目录到新工作目录
+2. 配置`vagrant`目录下的`Vagrant.yaml`
+3. `vagrant up`
+
 # 疑难问题
 
 ## MySQL数据库映射手记
