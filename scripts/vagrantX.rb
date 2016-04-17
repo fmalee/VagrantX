@@ -94,20 +94,22 @@ class VagrantX
       end
     end
 
-    # Change Mysql DataDir
+    # Change Data Server's DataDir
     if settings.include? 'datadir'
-      if File.exists? idLock then
-        config.vm.synced_folder settings["datadir"], "/var/lib/mysql",
-          :nfs => true,
-          :mount_options => ['actimeo=1']
+      config.vm.provision "shell", inline: "echo ‘如果数据库因为权限问题无法启动，请手动在主机里释放NFS权限，比如重启...’", run: "always"
+      settings["datadir"].each do |data|
+        if File.directory?File.expand_path(data["map"])
+          type = data["type"] ||= "mysql"
+          to = data["to"] ||= "/var/data"
+          config.vm.synced_folder data["map"], data["to"],
+            :nfs => true,
+            :mount_options => ['actimeo=1']
 
-        config.vm.provision "shell", run: "always" do |s|
-          s.path = scriptDir + "/change-mysql.sh"
-          # s.args = settings["datadir"]
-          s.args = "/var/lib/mysql"
+          config.vm.provision "shell", run: "always" do |s|
+            s.path = scriptDir + "/change-#{type}.sh"
+            s.args = data["to"]
+          end
         end
-      elsif
-        config.vm.provision "shell", inline: "echo ‘第一次启动，需要重启后新数据库才能生效’", run: "always"
       end
     end
 
